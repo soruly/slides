@@ -71,3 +71,16 @@ Raw Video -> FFmpeg extract all frames -> Lire extract image features -> dedupli
 - indexing speed: ~65 seconds for an 24-minute 720p anime (~35s extract, ~25s hashing, ~5s dedup and transform)
 - runs on an i7-4770 with 32GB RAM
 - search time: varies between 0-40 seconds
+- 500+ users of its Chrome Extension
+- Referrals from partner website SauceNao
+- Fans talk about it on Twitter, plurk, reddit, VK
+
+* What's Next?
+Kind of experiment right now
+Potential usage
+- something like youtube contentID
+- auto tagger
+- advertise for legal online anime websites / anime priducers
+
+What about search by audio?
+- possible, has libraries, but not enough data yet
