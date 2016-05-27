@@ -1,11 +1,11 @@
 WAIT: What Anime Is This?
-Techniques behind Anime Scene Reverse Search Engine
+Anime Scene Reverse Search Engine
 27 May 2016
 Tags: CBIR, Anime
 
 soruly
-soruly@gmail.com
-https://soruly.hk/
+https://github.com/soruly/whatanime.ga
+https://github.com/soruly/whatanime.ga-Chrome-Extension
 @soruly
 
 * The Motivation
@@ -54,33 +54,56 @@ Raw Video -> FFmpeg extract all frames -> Lire extract image features -> dedupli
 
 * Hash distribution of Color Layout on 15000 hours of Anime
 .image whatanime.ga/histogram.jpg _ 800
+.caption 14 Dec 2015 (blue) compared to 18 Apr 2016 (red). Graph shifted upwards evenly
+
+* Hash distribution of Color Layout on 15000 hours of Anime
+.image whatanime.ga/histogram.png _ 800
+.caption hash sorted by popularity
+.caption search is almost instant if it found a match under the 10000 line
 
 * Some optimization on searching
-- whatanime.ga is targeted for exact match, not for finding visually similar images
-- Stop searching once a good image (Similarity > 90%) is found
+whatanime.ga is targeted for almost exact match, not visually similar images
 - Assumption: consider similarity < 90% as no match
+- Stop searching once a good result (Similarity > 90%) is found
 - No need to continue searching after 10% of extracted image feature is searched
 - warmup data with [[https://github.com/hoytech/vmtouch][vmtouch]]
-- cache good search results in redis
+- cache high confidence search results in redis
+- cache less confidence search results in redis too, but expire sooner
+
+more detail posted on [[http://www.semanticmetadata.net/2016/03/04/lire-use-case-what-anime-is-this/][semanticmetadata.net]]
 
 * Statistics
-- 15600 hours of anime analyzed (~8.4TB)
-.caption it took 2 core-i7 machine 2 months to complete
+- 15600 hours video from 2395 anime series analyzed (~8.4TB)
+.caption it took 2 quad core-i7 machines 2 months to complete
 - 414 Million analyzed frames after deduplication, 76GB in solr
-- Automatically analyze new animes on air
+- Automatically analyze new animes
 - indexing speed: ~65 seconds for an 24-minute 720p anime (~35s extract, ~25s hashing, ~5s dedup and transform)
 - runs on an i7-4770 with 32GB RAM
-- search time: varies between 0-40 seconds
-- 500+ users of its Chrome Extension
-- Referrals from partner website SauceNao
-- Fans talk about it on Twitter, plurk, reddit, VK
+- search time: varies between 0-40 seconds );
+- 500+ users of its Chrome Extension ;)
+- Referrals from partner website SauceNao (thanks [[https://twitter.com/SauceNAO][Xamayon]])
+- Hundreds of fans sharing it on [[https://twitter.com/search?f=tweets&vertical=default&q=whatanime.ga&src=savs][Twitter]], [[http://www.plurk.com/w/#whatanime.ga?time=365][plurk]], [[https://www.reddit.com/r/newsokur/comments/4932zx/][reddit]], [[https://www.google.com/webhp?#q=site:vk.com+%22whatanime.ga%22][VK]]
 
 * What's Next?
 Kind of experiment right now
-Potential usage
+- badly written sourcecode
+- misplaced anime not cleaned up yet
+
+Develop a Firefox Add-on
+
+Wait for facebook to approve the [[https://twitter.com/soruly/status/720633945189015553][Messenger Bot]]
+Develop more IM bots, any ideas?
+
+Other Potential usage:
 - something like youtube contentID
 - auto tagger
-- advertise for legal online anime websites / anime priducers
+- advertise for commercial online anime websites / anime producers
 
 What about search by audio?
-- possible, has libraries, but not enough data yet
+- possible, [[https://github.com/worldveil/dejavu][library]] exists for this purpose
+
+* Credit
+Dr. Mathias Lux (LIRE Project)
+[[http://www.lire-project.net]]
+.caption Lux Mathias, Savvas A. Chatzichristofis. Lire: Lucene Image Retrieval – An Extensible Java CBIR Library. In proceedings of the 16th ACM International Conference on Multimedia, pp. 1085-1088, Vancouver, Canada, 2008 
+.caption [[http://www.morganclaypool.com/doi/abs/10.2200/S00468ED1V01Y201301ICR025][Visual Information Retrieval with Java and LIRE]]
