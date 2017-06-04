@@ -1,0 +1,140 @@
+WAIT: What Anime Is This?
+Anime Scene Reverse Search Engine
+4 Jun 2017
+Tags: CBIR, Anime
+
+soruly@gmail.com
+https://about.me/soruly
+@soruly on Twitter
+
+A list of awesome ACG related projects!
+[[https://github.com/soruly/awesome-acg]]
+
+* 
+1. Recap
+2. Updates since last year
+3. Problems
+4. Plans
+
+* Recap: what is WAIT?
+- Anime Scene Search Engine
+- Given an anime screencap, it tells you which episode and timecode it appears
+.image whatanime.ga-2017/demo.jpg _ 600
+
+* Recap: what is WAIT?
+This is:
+
+- Tailored for anime scenes (from TV, OVA, ONA, Movie, Bluray) only
+- Developed and maintained by me only
+
+This is not:
+
+- For comics, doujin artwork, anime posters or covers
+- Run by a group of "whatanime.ga team"
+
+
+How does it work?
+
+Refer to presentation from 2016:
+[[https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga.slide]]
+
+* Updates: New features / changes
+- [[https://github.com/soruly/whatanime.ga-WebExtension][WebExtensions]] for [[https://chrome.google.com/webstore/detail/search-anime-by-screensho/gkamnldpllcbiidlfacaccdoadedncfp][Chrome]], [[https://addons.mozilla.org/en-US/firefox/addon/search-anime-by-screenshot/][Firefox]] and [[https://addons.opera.com/en/extensions/details/search-anime-by-screenshot/][Opera]] (Edge and [[https://github.com/BlueCocoa/WAIT-Safari][Safari]] ready)
+- [[https://github.com/soruly/whatanime.ga-telegram-bot][Telegram Bot]]
+- [[https://soruly.github.io/whatanime.ga/#/][whatanime.ga API]] (Beta)
+- Preview thumbnails and video previews on bot
+- Search in specific season
+- Improved aspect ratio handling
+- Performace tuning
+- Cache and reCaptcha removed
+- Server hardware parts upgrades
+
+See [[https://whatanime.ga/changelog]] for complete list of changes
+
+* Updates: Statistics
+- 15600->22371 hours video from 2395->2825 anime series analyzed (8.4TB->11.8TB)
+- 414->561 million frames indexed, 76->103GB in database
+- Max search time cuts from 40s to <30s (to prevent timeouts)
+- [[http://www.alexa.com/siteinfo/whatanime.ga][Alexa rank]] 1,000,000+ -> 168,332
+- 1 Million pageviews, 380k users since last year
+- 40k Monthly active users, 2k daily users
+- 500->5000 users of its Chrome Extension->Web Extension
+- 8k Monthly search from the Telegram Bot
+- 620 [[https://github.com/soruly/whatanime.ga][Github Stars]]
+- 20 API token issued
+- 11 [[https://www.patreon.com/soruly][Patrons]]
+
+* Updates: Statistics
+.image whatanime.ga-2017/fs.png _ 900
+.caption File system usage (orange)
+.caption Aug 2016: switched from 8x2TB RAID6 to 4x8TB RAID6 (14TB->16TB)
+.caption Apr 2017: added 1 more 8TB drive
+
+* Updates: Statistics
+.image whatanime.ga-2017/disk.png _ 900
+.caption Database load increases over time
+.caption Sep 2016: an nvme SSD was added to offload Database load from system SSD
+
+* Updates: Statistics
+.image whatanime.ga-2017/nginx.png _ 900
+.caption Web server load increases over time
+.caption Feb 2017 in-rush traffic from bilibili
+.caption May 2017 in-rush traffic from Korea
+.caption May 2017 in-rush traffic from bilibili
+
+* Updates: Statistics (All time)
+- Top 10 countries: China (30%), US (15%), Indonesia (12%), Russia, Taiwan, Korea, Japan, Canada, UK, Brazil
+- Desktop (77%), Mobile (21%)
+- Direct (50%), 4chan (13%), Google Search (10%), SauceNAO, Facebook
+- New (55%), Returning (45%)
+- >99.9% uptime [[https://status.whatanime.ga]]
+.image whatanime.ga-2017/uptime.jpg _ 450
+
+* Problems
+.image whatanime.ga-2017/baidu.png _ 600
+- Language
+- Browser support
+- Mobile support
+- Speed and Accuracy
+- No time to develop
+- No money
+
+* What's Next?
+- New image descriptor FCTH (Fuzzy Color and Texture Histogram)
+- Upgrade to latest version of [[https://github.com/soruly/liresolr][liresolr]]
+- Re-index everything for cleaning up misplaced anime and timecode
+- Buy a faster server (for indexing first, then for searching)
+- Move to new domain (name not decided yet)
+- Rebuild web front-end (language, browser, and mobile support)
+- Users accounts, bookmark a scene
+- Tutorials for setting up and running the system locally
+- Better communication with whoever interested (e.g. blog, channel, chatroom...)
+.caption note the [[https://en.wikipedia.org/wiki/Great_Firewall][The Great Firewall of China]]
+- Ask for feedbacks and donation
+.caption Project status: [[https://github.com/soruly/whatanime.ga/projects/1]]
+
+* Work In Progress
+.image whatanime.ga-2017/lire.jpg _ 800
+.caption comparing 11 different image descriptors (by column, left to right: ColorLayout, EdgeHistogram, JCD, OpponentHistogram, PHOG, AutoColorCorrelogram, CEDD, FCTH, FuzzyOpponentHistogram, JointHistogram, ScalableColor)
+
+* Credit
+- Dr. Mathias Lux for [[http://www.lire-project.net][LIRE Project]]
+- Josh@[[https://anilist.co/home][anilist.co]] for providing anime info via [[https://github.com/joshstar/AniList-API-Docs][Anilist API]]
+- [[https://twitter.com/b123400][bちゃん]]、[[http://desmonding.me][Desmond]], and 9 other Patrons
+- [[https://github.com/BlueCocoa][BlueCocoa]] for [[https://github.com/BlueCocoa/WAIT-Safari][WAIT-Safari]]
+- [[https://github.com/ccd0][ccd0]] for integrating whatanime.ga into [[https://github.com/ccd0/4chan-x][4chan-x]]
+- [[https://twitter.com/SauceNAO][Xamayon]] for integrating whatanime.ga into [[https://saucenao.com]]
+- [[https://github.com/egoist][egoist]] for [[https://github.com/egoist/docute][docute]] that makes API docs
+- [[https://github.com/bestshow][bestshow]] for reporting an [[https://github.com/soruly/whatanime.ga/issues/8][XSS issue]] regarding [[http://www.cvedetails.com/cve/CVE-2017-6390/][CVE-2017-6390]]
+- 荔枝 for introducing whatanime.ga in Chinese on [[https://blog.yizhilee.com/post/whatanime/][his blog]]
+- whoever shared, complained and made suggestions on whatanime.ga
+- whoever bring anime to this world ❤
+
+* How can we support whatanime.ga?
+If you love [[https://whatanime.ga]] share it!
+
+Support soruly on Patron
+[[https://www.patreon.com/soruly]]
+
+Stay up-to-date with official pages
+[[https://www.facebook.com/whatanime.ga][Facebook page]] or [[https://plus.google.com/communities/115025102250573417080][Google+]]
