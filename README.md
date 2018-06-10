@@ -2,6 +2,7 @@ View the slides online:
 
 - https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga.slide
 - https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2017.slide
+- https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2018.slide
 
 View the slides locally:
 

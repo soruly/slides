@@ -1,0 +1,226 @@
+WAIT: What Anime Is This?
+Anime Scene Reverse Search Engine
+10 Jun 2018
+Tags: CBIR, Anime
+
+soruly@gmail.com
+https://github.com/soruly
+https://www.patreon.com/soruly
+https://t.me/soruly
+@soruly
+
+* Content
+1. introduction and demo
+2. how does it work
+3. updates since 2017
+4. current status
+5. plans
+
+Previous presentations (updated):
+
+2016: debut
+[[https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga.slide]]
+
+2017: a year of growth
+[[https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2017.slide]]
+
+2018: slope of enlightenment
+[[https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2018.slide]]
+
+* What is WAIT?
+- [[https://whatanime.ga]] is an Anime Scene Search Engine
+- Given an anime screenshot, it tells you which episode and timecode it appears
+.image whatanime.ga-2018/demo1.jpg _ 600
+.caption What anime? Which episode? Time code?
+
+* What is WAIT?
+.image whatanime.ga-2018/demo2.jpg _ 700
+.caption This scene is found at "Flying Witch", episode 12 at time 00:08:34
+
+* How does it work?
+
+[[https://en.wikipedia.org/wiki/Content-based_image_retrieval][Content-based image retrieval (CBIR)]]
+
+There is a long list of CBIR engine/libraries/projects on [[https://en.wikipedia.org/wiki/List_of_CBIR_engines][wikipedia]]
+
+whatanime.ga uses [[http://www.lire-project.net/][Lire]] which has a [[https://bitbucket.org/dermotte/liresolr][solr plugin]]
+
+Common image descriptors:
+- Color Layout
+- Edge Histogram
+- Opponent Histogram
+- ScalableColor
+- etc.
+
+whatanime.ga only uses Color Layout due to Hardware limitations
+
+* How does it work? - Color Layout
+- one of the [[http://mpeg.chiariglione.org/standards/mpeg-7/visual][MPEG-7 standard]]
+- Raw Image -> Partition to 8x8 blocks -> take average color of each block -> convert color space to YCbCr -> DCT transform (quantize) -> Zigzag scanning
+.image whatanime.ga-2018/inko.jpg _ 240
+.caption Raw image
+.image whatanime.ga-2018/inko64.png _ 240
+.caption extracted image feature: FQYLBAQRFgoYFBANEBIQDw0QCw0PDxAeEhEQDhAfDQ8PEA8=
+
+* How does it work? - Color Layout for each frame
+raw video -> extract all frames by ffmpeg -> extract image features by LIRE -> deduplicate duplicated hashes -> append timestamp -> load into solr
+.image whatanime.ga-2018/extracted.png _ 680
+.caption extracted image features after deduplication and appending timestamp
+
+* How does it work? - Comparing hashes, at scale
+image similarity = similarity of two strings = 1 - edit distance of two strings (cl_hi)
+Reduce search area by [[https://en.wikipedia.org/wiki/Locality-sensitive_hashing][Locality Sensitive Hashing]]
+Comparing 700 million strings -> compare 1 million strings
+.image whatanime.ga-2018/extracted.png _ 680
+.caption cl_ha is for speeding up search for cl_hi
+
+* How does it work? - Comparing hashes, at scale
+Choose 1 out of 100 hash terms for search, starting from the least populated one.
+dermotte accepted this idea and [[https://github.com/dermotte/liresolr/commit/4d500548c8e34f245de440e810bf0893e87ddbe9][implemented this as IDF into liresolr]]
+.image whatanime.ga-2018/histogram.jpg _ 650
+.caption cluster ID vs population (log scale)
+[[https://github.com/dermotte/liresolr/commit/4d500548c8e34f245de440e810bf0893e87ddbe9][commit]]
+
+* Updates since 2017
+
+* New features / changes
+- New server!
+- Upgraded from solr 5.x to 7.2
+- Moved from CentOS to Fedora
+- Improved performace by multi-core search
+- Improved accuracy by adding auto black border crop
+- Added groups support for [[https://github.com/soruly/whatanime.ga-telegram-bot][Telegram Bot]]
+- Created [[https://discord.gg/K9jn6Kj][Discord Channel]] and [[https://telegram.me/whatanimeupdates][Telegram Channel]]
+- 2 new Android apps was built by [[https://play.google.com/store/apps/details?id=com.maddog05.whatanime][Andrée Torres]] and [[https://play.google.com/store/apps/details?id=pw.janyo.whatanime][Mystery0]] , thank you!
+- Paid most technical debt
+- Updated to support anilist APIv2 and search by specific anilist ID
+- [[https://github.com/soruly/sola][sola]]
+
+.caption see [[https://whatanime.ga/changelog]] for complete list of changes
+
+* New server :D
+.image whatanime.ga-2018/server.jpg _ 900
+.caption 2 x E5-2696v4 (44 Core 88 Threads), 128GB RAM
+
+* multi-core (database) search
+- liresolr is single thread... and solrcloud does not work well with plugin schemas
+- split index into 32 databases (solr cores), [[https://twitter.com/soruly/status/982954746016223232][each having 23 million hashes, ~4.4GB]]
+- balance cores by loading hashes into least populated cores
+- curl parallel search on all databases, and combine results with php
+- all database (solr cores) are hosted in one server
+.image whatanime.ga-2018/htop.jpg _ 800
+.caption [[https://twitter.com/soruly/status/982953644562595840]]
+
+* black border detection and auto crop
+Using [[https://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/find_contours/find_contours.html][findContours]] from OpenCV to crop black borders
+.image whatanime.ga-2018/crop.jpg _ 600
+.caption similarity: with black border 89.4%, without border 96.3%
+.caption [[https://twitter.com/soruly/status/930080021502291968]]
+
+* Statistics
+- 30096 hours of video from 3194 anime series analyzed (18.1TB)
+- 746 million frames indexed, 140GB in database
+- Average search time cuts from ~10s to 1~2s
+- [[http://www.alexa.com/siteinfo/whatanime.ga][Alexa rank]] 97,857
+- 1.5 Million pageviews, 620k users since last year
+- 50k Monthly active users, 2.5k daily users
+- 6k users of its Web Extension ([[https://twitter.com/soruly/status/992808887626514432][Chrome: 5k]], Firefox: 1k, Opera: a few)
+- 10k search per month from the Official Telegram Bot
+- 15k search queries per day, including 2k via API issued to 96 developers
+- 1k [[https://github.com/soruly/whatanime.ga][Github Stars]] ! Thank you ;)
+- 20 [[https://www.patreon.com/soruly][Patrons]] , Thank you ;)
+
+* Where are we now?
+2016: "It's magic!", "It's super awesome!!"
+2017: "It's not accurate!", "It doesn't work as expected"
+2018: Most users understand the design and limitations of whatanime.ga
+.image whatanime.ga-2018/Gartner_Hype_Cycle.svg _ 600
+.caption [[https://en.wikipedia.org/wiki/Hype_cycle]]
+
+* What is WAIT? Actually
+whatanime.ga has nothing to do with:
+- IA
+- Machine Learning
+- blockchain
+
+whatanime.ga is kind of:
+- [[https://en.wikipedia.org/wiki/Content-based_image_retrieval][Content-based image retrieval (CBIR)]] search engine
+- computer graphics program
+- big data (depends on how you define big)
+
+whatanime.ga index includes:
+- anime from TV, OVA, ONA, Movie
+
+whatanime.ga index does not include:
+- comics, doujin artwork, anime posters or covers
+
+* Slope of enlightenment
+whatanime.ga will not:
+- cover comics / artworks
+- allow search by timecode
+- increase duration of preview
+- add ads to websites
+
+whatanime.ga will:
+- Increase database coverage (fill in missing anime and maybe crawling from youtube)
+- Reduce duplicates in database
+- Support multiple image descriptors like FCTH (Fuzzy Color and Texture Histogram)
+- Rebuild web front-end (language, browser, and mobile support)
+
+* One more thing...
+
+* sola
+.caption Those weird shell scripts and python scripts are now organized into a new project
+[[https://github.com/soruly/sola]]
+
+- Helper command to setup liresolr and multiple solr cores
+- Distributed workers for indexing video
+- Load pre-hashed files into multiple cores (balanced)
+- Frame deduplication
+- Watch folder and index new videos automatically
+- Post updates to telegram channel
+- Search multiple cores at once
+- Scalable to search 700 million frames in <3 seconds
+
+.caption It's time to build your own Anime/Video Scene Search Engine!
+
+* How to support whatanime.ga?
+If you love [[https://whatanime.ga]] , share it!
+
+Report bugs on [[https://github.com/soruly][GitHub]], [[https://github.com/soruly/whatanime.ga][Telegram]] or [[https://discord.gg/K9jn6Kj][Discord]]
+
+Support soruly on Patron
+[[https://www.patreon.com/soruly]]
+
+Support soruly via PayPal
+[[https://www.paypal.me/soruly]]
+
+Official pages / channels:
+[[https://discord.gg/K9jn6Kj][Discord Channel]]
+[[https://telegram.me/whatanimeupdates][Telegram Channel]]
+[[https://www.facebook.com/whatanime.ga][Facebook Page]]
+[[https://plus.google.com/communities/115025102250573417080][Google+]]
+
+* 
+All parts of whatanime.ga is open source!
+
+[[https://github.com/soruly/whatanime.ga]]
+[[https://github.com/soruly/whatanime.ga-WebExtension]]
+[[https://github.com/soruly/whatanime.ga-telegram-bot]]
+[[https://github.com/soruly/anilist-crawler]]
+[[https://github.com/soruly/liresolr]]
+[[https://github.com/soruly/sola]]
+
+See more awesome ACG projects:
+[[https://github.com/soruly/awesome-acg]]
+
+* Credit
+- Dr. Mathias Lux for [[http://www.lire-project.net][LIRE Project]] and [[https://github.com/dermotte/liresolr][liresolr]]
+- Josh@[[https://anilist.co/home][anilist.co]] for providing anime info via [[https://github.com/AniList/ApiV2-GraphQL-Docs][Anilist API]]
+- [[https://twitter.com/b123400][bちゃん]], [[http://desmonding.me][Desmond]], [[http://imvery.moe/][FangzhouL]], Snadzies, WelkinWill, [[https://twitter.com/yuriks][yuriks]], and 15 other Patrons
+- [[https://github.com/ccd0][ccd0]] for integrating whatanime.ga into [[https://github.com/ccd0/4chan-x][4chan-x]]
+- [[https://twitter.com/SauceNAO][Xamayon]] for integrating whatanime.ga into [[https://saucenao.com]]
+- [[https://github.com/egoist][egoist]] for [[https://github.com/egoist/docute][docute]] that makes API docs
+- 荔枝 for introducing whatanime.ga in Chinese on [[https://blog.yizhilee.com/post/whatanime/][his blog]]
+- whoever shared, complained and made suggestions on whatanime.ga
+- whoever bring anime to this world ❤
