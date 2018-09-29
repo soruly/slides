@@ -3,6 +3,7 @@ View the slides online:
 - https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga.slide
 - https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2017.slide
 - https://go-talks.appspot.com/github.com/soruly/slides/whatanime.ga-2018.slide
+- [whatanime.ga-2018-SITCON.md](whatanime.ga-2018-SITCON.md) ([pdf](https://github.com/soruly/slides/raw/master/whatanime.ga-2018-SITCON.pdf))
 
 View the slides locally:
 
