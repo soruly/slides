@@ -39,14 +39,14 @@ Building Anime Scene Search Engine
 
 # [Build_Your_Own_X](https://github.com/danistefanovic/build-your-own-x)
 
-![80%](whatanime.ga-2018-SITCON/CBIR.png)
+![80%](2018-09-whatanime.ga/CBIR.png)
 ###### https://en.wikipedia.org/wiki/List_of_CBIR_engines
 
 ---
 
 # Demo
 
-![55%](whatanime.ga-2018-SITCON/demo.jpg)
+![55%](2018-09-whatanime.ga/demo.jpg)
 ###### search results on the right, anime info below is provided by [anilist.co](https://anilist.co)
 
 ---
@@ -73,7 +73,7 @@ whatanime.ga is kind of:
 # Brief idea of Color Layout
 - one of the [MPEG-7 standard](http://mpeg.chiariglione.org/standards/mpeg-7/visual) (I didn't invent this)
 - Raw Image -> Partition to 8x8 blocks -> take average color of each block -> convert color space to YCbCr -> DCT transform (quantize) -> Zigzag scanning
-![55%](whatanime.ga-2018-SITCON/inko.jpg) ![55%](whatanime.ga-2018-SITCON/inko64.png)
+![55%](2018-09-whatanime.ga/inko.jpg) ![55%](2018-09-whatanime.ga/inko64.png)
 - extracted image feature (fingerprint): `FQYLBAQRFgoYFBANEBIQDw0QCw0PDxAeEhEQDhAfDQ8PEA8=`
 ###### https://en.wikipedia.org/wiki/Color_layout_descriptor
 
@@ -82,7 +82,7 @@ whatanime.ga is kind of:
 # Color Layout for each frame
 Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIRE** -> Deduplicate hashes -> Append timestamp -> Load into **solr** (database)
 
-# ![100%](whatanime.ga-2018-SITCON/extracted.png)
+# ![100%](2018-09-whatanime.ga/extracted.png)
 `image similarity = similarity of two binary strings`
 
 ---
@@ -93,7 +93,7 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 - There are still ~804,000,000 images to compare
 - Reduce search area by [Locality Sensitive Hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing)
 - Comparing ~800 million strings -> compare ~1 million strings
-# ![60%](whatanime.ga-2018-SITCON/extracted.png)
+# ![60%](2018-09-whatanime.ga/extracted.png)
 ###### still not fast enough
 
 ---
@@ -103,7 +103,7 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 - Choose 1 out of 100 hash terms for search, starting from the least populated one. (image: cluster ID vs population)
 - dermotte (author of **LIRE**) accepted this idea and [implemented this as IDF into liresolr](https://github.com/dermotte/liresolr/commit/4d500548c8e34f245de440e810bf0893e87ddbe9) (see more in [semanticmetadata.net](http://www.semanticmetadata.net/2016/03/04/lire-use-case-what-anime-is-this/))
 
-![50%](whatanime.ga-2018-SITCON/histogram.jpg) ![20%](whatanime.ga-2018-SITCON/histogram.png)
+![50%](2018-09-whatanime.ga/histogram.jpg) ![20%](2018-09-whatanime.ga/histogram.png)
 ###### June 2016: ~1k of daily users, search time varies from 1-40sec
 
 ---
@@ -113,14 +113,14 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 - Reduce search accuracy
 - Disable swap
 - Replace SATA SSD with NVMe SSD
-![50%](whatanime.ga-2018-SITCON/nvme.jpg)
+![50%](2018-09-whatanime.ga/nvme.jpg)
 
 ###### June 2017: ~2k of daily users, search time varies from 1-30sec
 
 ---
 
 # Data keeps growing, Traffic keeps rising
-![50%](whatanime.ga-2018-SITCON/hdd.jpg)
+![50%](2018-09-whatanime.ga/hdd.jpg)
 ###### ~~"We need to build a wall"~~
 ###### Minimum search time becomes 10-30sec, server keeps overloading
 
@@ -130,7 +130,7 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 
 - Old server: just a quad-core Desktop PC with 32GB RAM
 - New server: 2 x E5-2696v4 (44 Core 88 Threads), 256GB RAM
-![50%](whatanime.ga-2018-SITCON/server.jpg)
+![50%](2018-09-whatanime.ga/server.jpg)
 
 ###### Dec 2017: Slightly better, but server still keeps overloading
 
@@ -142,7 +142,7 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 - Balance cores by loading hashes into least populated cores
 - Search all databases in parallel, and combine results
 - All database (solr cores) are hosted in one server
-![](whatanime.ga-2018-SITCON/htop.jpg)
+![](2018-09-whatanime.ga/htop.jpg)
 ###### April 2018: [See how it utilize all cores](https://twitter.com/soruly/status/982953644562595840)
 
 ---
@@ -150,7 +150,7 @@ Raw Video -> Extract all frames by **ffmpeg** -> Extract image features by **LIR
 # More RAM
 - [Database size (index) is 150GB now](https://whatanime.ga/about)
 - Use [vmtouch](https://hoytech.com/vmtouch/) to keep the database in RAM
-![50%](whatanime.ga-2018-SITCON/ram.jpg)
+![50%](2018-09-whatanime.ga/ram.jpg)
 https://twitter.com/soruly/status/1030122636725051392
 
 ###### Aug 2018: Search time consistantly 0-2sec
@@ -159,13 +159,13 @@ https://twitter.com/soruly/status/1030122636725051392
 
 # Auto black border detection and crop
 - Using [findContours](https://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/find_contours/find_contours.html) from OpenCV to [crop black borders](https://twitter.com/soruly/status/930080021502291968)
-![50%](whatanime.ga-2018-SITCON/crop.jpg)
+![50%](2018-09-whatanime.ga/crop.jpg)
 ###### similarity: with black border 89.4%, without border 96.3%
 
 ---
 
 # System Overview
-![120%](whatanime.ga-2018-SITCON/diagram.png)
+![120%](2018-09-whatanime.ga/diagram.png)
 
 ---
 

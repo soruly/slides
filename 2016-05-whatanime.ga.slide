@@ -23,7 +23,7 @@ Image reverse search engines
 - [[https://whatanime.ga][whatanime.ga]] - tailored for anime
 
 * Demo
-.image whatanime.ga/demo.jpg _ 500
+.image 2016-05-whatanime.ga/demo.jpg _ 500
 .caption search results on the left, anime info below is provided by [[https://anilist.co][anilist.co]]
 
 * How does it work?
@@ -46,22 +46,22 @@ whatanime.ga only uses Color Layout due to Hardware limitations
 * Brief idea of Color Layout 
 - one of the [[http://mpeg.chiariglione.org/standards/mpeg-7/visual][MPEG-7 standard]]
 - Raw Image -> Partition to 8x8 blocks -> take average color of each block -> convert color space to YCbCr -> DCT transform (quantize) -> Zigzag scanning
-.image whatanime.ga/inko.jpg _ 240
+.image 2016-05-whatanime.ga/inko.jpg _ 240
 .caption Raw image
-.image whatanime.ga/inko64.png _ 240
+.image 2016-05-whatanime.ga/inko64.png _ 240
 .caption extracted image feature: FQYLBAQRFgoYFBANEBIQDw0QCw0PDxAeEhEQDhAfDQ8PEA8=
 
 * Use CBIR for analyzing video
 Raw Video -> FFmpeg extract all frames -> Lire extract image features -> deduplicate images with same image features with a running window of 12 frames -> append timestamp -> load into solr
-.image whatanime.ga/extracted.png _ 680
+.image 2016-05-whatanime.ga/extracted.png _ 680
 .caption extracted image features after deduplication and appending timestamp
 
 * Hash distribution of Color Layout on 15000 hours of Anime
-.image whatanime.ga/histogram.jpg _ 800
+.image 2016-05-whatanime.ga/histogram.jpg _ 800
 .caption 14 Dec 2015 (blue) compared to 18 Apr 2016 (red). Graph shifted upwards evenly
 
 * Hash distribution of Color Layout on 15000 hours of Anime
-.image whatanime.ga/histogram.png _ 800
+.image 2016-05-whatanime.ga/histogram.png _ 800
 .caption hash sorted by popularity
 .caption search is almost instant if it found a match under the 10000 line
 

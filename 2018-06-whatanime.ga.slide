@@ -29,11 +29,11 @@ Previous presentations (updated):
 * What is WAIT?
 - [[https://whatanime.ga]] is an Anime Scene Search Engine
 - Given an anime screenshot, it tells you which episode and timecode it appears
-.image whatanime.ga-2018/demo1.jpg _ 600
+.image 2018-06-whatanime.ga/demo1.jpg _ 600
 .caption What anime? Which episode? Time code?
 
 * What is WAIT?
-.image whatanime.ga-2018/demo2.jpg _ 700
+.image 2018-06-whatanime.ga/demo2.jpg _ 700
 .caption This scene is found at "Flying Witch", episode 12 at time 00:08:34
 
 * How does it work?
@@ -57,27 +57,27 @@ whatanime.ga only uses Color Layout due to Hardware limitations
 - one of the [[http://mpeg.chiariglione.org/standards/mpeg-7/visual][MPEG-7 standard]]
 - Raw Image -> Partition to 8x8 blocks -> take average color of each block -> convert color space to YCbCr -> DCT transform (quantize) -> Zigzag scanning
 .caption [[https://en.wikipedia.org/wiki/Color_layout_descriptor]]
-.image whatanime.ga-2018/inko.jpg _ 240
+.image 2018-06-whatanime.ga/inko.jpg _ 240
 .caption Raw image
-.image whatanime.ga-2018/inko64.png _ 240
+.image 2018-06-whatanime.ga/inko64.png _ 240
 .caption extracted image feature: FQYLBAQRFgoYFBANEBIQDw0QCw0PDxAeEhEQDhAfDQ8PEA8=
 
 * How does it work? - Color Layout for each frame
 raw video -> extract all frames by ffmpeg -> extract image features by LIRE -> deduplicate duplicated hashes -> append timestamp -> load into solr
-.image whatanime.ga-2018/extracted.png _ 780
+.image 2018-06-whatanime.ga/extracted.png _ 780
 .caption extracted image features after deduplication and appending timestamp
 
 * How does it work? - Comparing hashes, at scale
 image similarity = similarity of two strings = 1 - edit distance of two strings (cl_hi)
 Reduce search area by [[https://en.wikipedia.org/wiki/Locality-sensitive_hashing][Locality Sensitive Hashing]]
 Comparing 700 million strings -> compare 1 million strings
-.image whatanime.ga-2018/extracted.png _ 680
+.image 2018-06-whatanime.ga/extracted.png _ 680
 .caption cl_ha is for speeding up search for cl_hi
 
 * How does it work? - Comparing hashes, at scale
 Choose 1 out of 100 hash terms for search, starting from the least populated one.
 dermotte accepted this idea and [[https://github.com/dermotte/liresolr/commit/4d500548c8e34f245de440e810bf0893e87ddbe9][implemented this as IDF into liresolr]]
-.image whatanime.ga-2018/histogram.jpg _ 650
+.image 2018-06-whatanime.ga/histogram.jpg _ 650
 .caption cluster ID vs population (log scale)
 [[https://github.com/dermotte/liresolr/commit/4d500548c8e34f245de440e810bf0893e87ddbe9][commit]]
 
@@ -87,7 +87,7 @@ dermotte accepted this idea and [[https://github.com/dermotte/liresolr/commit/4d
 - New server!
 - Upgraded from solr 5.x to 7.2
 - Moved from CentOS to Fedora
-- Improved performace by multi-core search
+- Improved performance by multi-core search
 - Improved accuracy by adding auto black border crop
 - Added groups support for [[https://github.com/soruly/whatanime.ga-telegram-bot][Telegram Bot]]
 - Created [[https://discord.gg/K9jn6Kj][Discord Channel]] and [[https://telegram.me/whatanimeupdates][Telegram Channel]]
@@ -99,7 +99,7 @@ dermotte accepted this idea and [[https://github.com/dermotte/liresolr/commit/4d
 .caption see [[https://whatanime.ga/changelog]] for complete list of changes
 
 * New server :D
-.image whatanime.ga-2018/server.jpg _ 900
+.image 2018-06-whatanime.ga/server.jpg _ 900
 .caption 2 x E5-2696v4 (44 Core 88 Threads), 128GB RAM
 
 * multi-core (database) search
@@ -108,12 +108,12 @@ dermotte accepted this idea and [[https://github.com/dermotte/liresolr/commit/4d
 - balance cores by loading hashes into least populated cores
 - curl parallel search on all databases, and combine results with php
 - all database (solr cores) are hosted in one server
-.image whatanime.ga-2018/htop.jpg _ 800
+.image 2018-06-whatanime.ga/htop.jpg _ 800
 .caption [[https://twitter.com/soruly/status/982953644562595840]]
 
 * black border detection and auto crop
 Using [[https://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/find_contours/find_contours.html][findContours]] from OpenCV to crop black borders
-.image whatanime.ga-2018/crop.jpg _ 600
+.image 2018-06-whatanime.ga/crop.jpg _ 600
 .caption similarity: with black border 89.4%, without border 96.3%
 .caption [[https://twitter.com/soruly/status/930080021502291968]]
 
@@ -134,7 +134,7 @@ Using [[https://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/find_
 2016: "It's magic!", "It's super awesome!!"
 2017: "It's not accurate!", "It doesn't work as expected"
 2018: Most users understand the design and limitations of whatanime.ga
-.image whatanime.ga-2018/Gartner_Hype_Cycle.svg _ 600
+.image 2018-06-whatanime.ga/Gartner_Hype_Cycle.svg _ 600
 .caption [[https://en.wikipedia.org/wiki/Hype_cycle]]
 
 * What is WAIT? Actually
@@ -167,7 +167,7 @@ whatanime.ga will:
 - Support multiple image descriptors like FCTH (Fuzzy Color and Texture Histogram)
 - Rebuild web front-end for language and mobile support (contributors welcome)
 - move to a new domain (considering [[trace.moe]])
-.image whatanime.ga-2018/moe.jpg _ 250
+.image 2018-06-whatanime.ga/moe.jpg _ 250
 
 * One more thing...
 
@@ -187,7 +187,7 @@ whatanime.ga will:
 .caption It's time to build your own Anime/Video Scene Search Engine!
 
 * New Overview
-.image whatanime.ga-2018/diagram.svg _ 750
+.image 2018-06-whatanime.ga/diagram.svg _ 750
 
 * All parts of whatanime.ga are open source!
 
